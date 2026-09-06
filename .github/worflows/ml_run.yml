@@ -3,7 +3,8 @@ name: ML Run
 on: 
     push: # when a push is made to the main branch of the repository
       branches:
-           - main
+           - main  
+    workflow_dispatch: # allows the workflow to be triggered manually from the Actions tab in the repository          
 jobs:
   ml_run:
     runs-on: ubuntu-latest # runs the workflow on the latest ubuntu version
