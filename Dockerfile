@@ -22,6 +22,7 @@ WORKDIR /app
 
 # Copy your script(s) into container
 COPY ml_example.py /app/
+COPY data.csv /app/  
 
 
 # Install Python dependencies (adjust as needed)
