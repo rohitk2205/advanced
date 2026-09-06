@@ -1,42 +1,26 @@
-import numpy as np
-from sklearn import datasets  # type: ignore
-from sklearn.model_selection import train_test_split  # type: ignore
-try:
-	from sklearn.ensemble import RandomForestClassifier  # type: ignore[reportMissingImports,import-not-found]  # pyright: ignore[reportMissingModuleSource]
-except Exception:  # pragma: no cover - environment may not have sklearn installed
-	raise ImportError("scikit-learn is required to run this script. Install it with: pip install scikit-learn")
-from sklearn.metrics import accuracy_score  # type: ignore
+import pandas as pd
+from sklearn.linear_model import LinearRegression
 
 
+# Load CSV file (assume 4 columns: 3 features + 1 target)
+df = pd.read_csv("data.csv")
 
 
-# Load the Iris dataset
-iris = datasets.load_iris()
-X = iris.data  # Features
-y = iris.target  # Labels
+# First 3 columns as features (X), last column as target (y)
+X = df.iloc[:, :3]
+y = df.iloc[:, 3]
 
 
-# Split the dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
+# Train model
+model = LinearRegression()
+model.fit(X, y)
 
 
-# Create a Random Forest Classifier
-model = RandomForestClassifier(n_estimators=100, random_state=42)
+# Print coefficients
+print("Coefficients:", model.coef_)
+print("Intercept:", model.intercept_)
 
 
-# Train the model
-model.fit(X_train, y_train)
-
-
-# Make predictions
-y_pred = model.predict(X_test)
-
-
-# Calculate accuracy
-accuracy = accuracy_score(y_test, y_pred)
-
-
-# Print the accuracy
-print ('Accuracy: ', accuracy*100)
-
-print("Hello, World!")
+# Predict on same data (just for demo)
+predictions = model.predict(X)
+print("Predictions:", predictions[:10])  # show first 10
